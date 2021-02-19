@@ -1,18 +1,19 @@
 Package: coronavirusupdate
-Title: What the Package Does (One Line, Title Case)
+Title: Provides transcripts for the NDR Coronavirus-Update in tidy format
 Version: 0.0.0.9000
 Authors@R: 
-    person(given = "First",
-           family = "Last",
+    person(given = "Lukas",
+           family = "Steger",
            role = c("aut", "cre"),
-           email = "first.last@example.com",
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to
-    pick a license
+           email = "lukas.steger95@gmail.com")
+Description: This package includes two parts: all the functions to scrape the transcripts of the podcasts and simply provide the data set as a tidy tibble. Please note that all content is originally from Norddeutscher Rundfunk Anstalt des öffentlichen Rechts.
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
 URL: https://github.com/quickcoffee/coronavirusupdate
 BugReports: https://github.com/quickcoffee/coronavirusupdate/issues
+Suggests: 
+    spelling
+Language: en-US
