@@ -1,6 +1,6 @@
 Package: coronavirusupdate
 Title: Provides transcripts for the NDR Coronavirus-Update in tidy format
-Version: 0.0.0.9000
+Version: 0.0.1.9000
 Authors@R: 
     person(given = "Lukas",
            family = "Steger",
@@ -17,3 +17,14 @@ BugReports: https://github.com/quickcoffee/coronavirusupdate/issues
 Suggests: 
     spelling
 Language: en-US
+Imports: 
+    magrittr,
+    tibble,
+    dplyr,
+    lubridate,
+    purrr,
+    rvest,
+    stringr,
+    tidyr,
+    urltools,
+    xml2
