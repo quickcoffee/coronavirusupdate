@@ -27,4 +27,5 @@ Imports:
     stringr,
     tidyr,
     urltools,
-    xml2
+    xml2,
+    arrow

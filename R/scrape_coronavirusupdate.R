@@ -1,6 +1,9 @@
 scrape_coronavirusupdate <- function(.all_episodes_url,
                                      .target_path_rds = "data/coronavirusupdate_transcripts.rds",
-                                     .force_complete_scrape = FALSE) {
+                                     .return_tibble = FALSE,
+                                     .force_complete_scrape = FALSE,
+                                     .write_parquet = FALSE,
+                                     .target_path_parquet = "data/coronavirusupdate_transcripts.parquet") {
   # read html of podcast homepage
   corona_update_html <- xml2::read_html(.all_episodes_url)
   # get list of episodes including urls to transcript
@@ -64,7 +67,7 @@ scrape_coronavirusupdate <- function(.all_episodes_url,
 
   #manually clean the speaker names from typos and different variants
   coronavirusupdate_transcripts <- coronavirusupdate_transcripts %>%
-    mutate(speaker = dplyr::case_when(
+    dplyr::mutate(speaker = dplyr::case_when(
       speaker %in% c("Hennig",
                      "Hennig",
                      "Henning",
@@ -89,6 +92,17 @@ scrape_coronavirusupdate <- function(.all_episodes_url,
     )
     )
 
+  #save rds file to target path
   saveRDS(coronavirusupdate_transcripts, file = .target_path_rds)
-  return(coronavirusupdate_transcripts)
+
+  #if needed also save as parquet
+  if (.write_parquet == TRUE) {
+    arrow::write_parquet(x = coronavirusupdate_transcripts,
+                         sink = .target_path_parquet,
+                         allow_truncated_timestamps = TRUE)
+  }
+
+  if (.return_tibble == TRUE){
+    return(coronavirusupdate_transcripts)
+  }
 }
