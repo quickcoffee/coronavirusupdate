@@ -3,6 +3,7 @@
 #' @param .episode full url of an episode
 #' @return tibble with transcripts of episode provided
 #' @examples
+#' \dontrun{}
 #' extract_transcript("https://www.ndr.de/nachrichten/info/76-Coronavirus-Update-AstraZeneca-Impfstoff-besser-als-sein-Ruf,podcastcoronavirus288.html")
 extract_transcript <- function(.episode_url) {
   # sleep to be polite
