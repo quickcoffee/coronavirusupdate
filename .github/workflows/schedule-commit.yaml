@@ -2,6 +2,12 @@
 on:
   schedule:
     - cron: "0 12 * * 3"
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'     
+        required: true
+        default: 'warning'
 
 jobs:
   generate-data:
