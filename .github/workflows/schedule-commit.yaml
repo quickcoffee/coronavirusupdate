@@ -52,7 +52,7 @@ jobs:
           
       - name: Generate data
         run: |
-          source("R/update_data.R")
+          source("scripts/update_data.R")
         shell: Rscript {0} 
         
       - name: Commit files
