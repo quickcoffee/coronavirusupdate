@@ -16,5 +16,7 @@ tibble with transcripts of episode provided
 helper function that extracts the transcripts from a episode url including the speaker, paragraph no and the last chnage and episode lenth.
 }
 \examples{
+\dontrun{
 extract_transcript("https://www.ndr.de/nachrichten/info/76-Coronavirus-Update-AstraZeneca-Impfstoff-besser-als-sein-Ruf,podcastcoronavirus288.html")
+}
 }
