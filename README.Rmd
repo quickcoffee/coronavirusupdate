@@ -40,7 +40,8 @@ data("coronavirusupdate_transcripts")
 ```
 
 This will load a tidy dataframe called `coronavirus_update` with one row per 
-paragraph and the following structure:
+paragraph. Currently this includes `r max(coronavirusupdate_transcripts$episode_no)` 
+episodes with the following structure:
 
 ```{r glimpse, message=FALSE, warning=FALSE}
 library(dplyr)

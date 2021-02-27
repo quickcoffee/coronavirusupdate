@@ -37,7 +37,8 @@ data("coronavirusupdate_transcripts")
 ```
 
 This will load a tidy dataframe called `coronavirus_update` with one row
-per paragraph and the following structure:
+per paragraph. Currently this includes 77 episodes with the following
+structure:
 
 ``` r
 library(dplyr)
