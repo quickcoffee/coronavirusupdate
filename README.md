@@ -15,7 +15,9 @@ but was not very reliable. So I went back and now used the transcripts
 directly from the [podcast’s
 homepage](https://www.ndr.de/nachrichten/info/Coronavirus-Update-Die-Podcast-Folgen-als-Skript,podcastcoronavirus102.html).  
 Consequently I decided to create a R package to make it easy for anyone
-to scrape and access the data.
+to scrape and access the data.  
+In this repo every Wednesday a GitHub action is triggered to get the
+newest transcripts from NDR.de (as long as the website doesn’t change).
 
 ## Installation
 

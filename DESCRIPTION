@@ -15,7 +15,9 @@ RoxygenNote: 7.1.1
 URL: https://github.com/quickcoffee/coronavirusupdate
 BugReports: https://github.com/quickcoffee/coronavirusupdate/issues
 Suggests: 
-    spelling
+    spelling,
+    ggplot2,
+    tidytext
 Language: en-US
 Imports: 
     magrittr,
