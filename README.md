@@ -77,4 +77,55 @@ coronavirusupdate_transcripts %>%
        fill = element_blank())
 ```
 
-<img src="man/figures/README-pressure-1.png" width="100%" />
+<img src="man/figures/README-speaker-share-1.png" width="100%" />
+
+Or one can create a tf-idf analysis to find out which words are “unique”
+to each speaker:
+
+``` r
+library(tidytext) #for text processing and analysis
+library(ggplot2) # for plotting
+
+# create tibble with stopwords from stopwords package and some very frequent words in the corpus
+stop_words_de <- tibble(word = c(stopwords::stopwords("de"),
+                                 "dass",
+                                 "schon",
+                                 "mal",
+                                 "ja",
+                                 "ganz",
+                                 "gibt",
+                                 "sagen"))
+
+# get top 6 speaker by paragraph count
+top_speaker <- coronavirusupdate_transcripts %>% 
+  count(speaker, sort = TRUE) %>% 
+  head(6) %>% 
+  pull(speaker)
+
+tidy_corona <- coronavirusupdate_transcripts %>%
+  filter(speaker %in% top_speaker) %>%
+  select(episode_no, speaker, text) %>%
+  unnest_tokens(word, text) %>% 
+  anti_join(stop_words_de)
+
+#get tf-idf per speaker
+tidy_corona_tf_idf <- tidy_corona %>%
+  count(speaker, word) %>% 
+  ungroup() %>% 
+  bind_tf_idf(word, speaker, n)
+
+
+tidy_corona_tf_idf %>% 
+  group_by(speaker) %>% 
+  slice_max(tf_idf, n = 10, with_ties = FALSE) %>% 
+  mutate(word = factor(word, levels = rev(unique(word)))) %>%
+  ggplot(aes(tf_idf, word, fill = speaker)) +
+  geom_col(show.legend = FALSE) +
+  facet_wrap(~speaker, ncol = 2, scales = "free") +
+  labs(title = "Highest tf-idf words of top 6 speakers from the NDR Coronavirusupdate",
+       caption = "Transcripts from NDR.de",
+       x = "tf-idf", y = NULL)+
+  theme_minimal()
+```
+
+<img src="man/figures/README-tf_idf-1.png" width="100%" />
