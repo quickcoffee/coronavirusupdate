@@ -17,7 +17,10 @@ homepage](https://www.ndr.de/nachrichten/info/Coronavirus-Update-Die-Podcast-Fol
 Consequently I decided to create a R package to make it easy for anyone
 to scrape and access the data.  
 In this repo every Wednesday a GitHub action is triggered to get the
-newest transcripts from NDR.de (as long as the website doesn’t change).
+newest transcripts from NDR.de (as long as the website doesn’t
+change).  
+For all non-R users you can also find the data as parquet file in
+`data/coronavirusupdate_transcripts.parquet`.
 
 ## Installation
 
