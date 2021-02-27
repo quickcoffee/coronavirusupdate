@@ -2,6 +2,7 @@ on:
   push:
     paths:
       - '**.Rmd'
+      - 'data/**.rds'
 
 name: Render Rmarkdown files
 
