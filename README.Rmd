@@ -31,25 +31,40 @@ devtools::install_github("quickcoffee/coronavirusupdate")
 ```
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example how to load the transcript data:
 
 ```{r example}
 library(coronavirusupdate)
-## basic example code
+## load data
+data("coronavirusupdate_transcripts")
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+This will load a tidy dataframe called `coronavirus_update` with one row per 
+paragraph and the following structure:
 
-```{r cars}
-summary(cars)
+```{r glimpse, message=FALSE, warning=FALSE}
+library(dplyr)
+glimpse(coronavirusupdate_transcripts)
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this. You could also use GitHub Actions to re-render `README.Rmd` every time you push. An example workflow can be found here: <https://github.com/r-lib/actions/tree/master/examples>.
+With this dataset one could for example inspect the share per speaker and 
+episode:
 
-You can also embed plots, for example:
+```{r pressure, message=FALSE, warning=FALSE}
+library(ggplot2)
 
-```{r pressure, echo = FALSE}
-plot(pressure)
+coronavirusupdate_transcripts %>%
+  mutate(paragraph_length = nchar(text)) %>% 
+  group_by(episode_no, speaker) %>% 
+  summarise(speaker_length = sum(paragraph_length)) %>% 
+  group_by(episode_no) %>% 
+  mutate(speaker_share = speaker_length/sum(speaker_length)) %>% 
+  ggplot(aes(x=episode_no, y=speaker_share, fill = speaker))+
+  geom_bar(position="stack", stat="identity")+
+  theme_minimal()+
+  theme(legend.position="bottom")+
+  labs(title = "Share of speaker per episode",
+       y = "Share",
+       x = "Episode No",
+       fill = element_blank())
 ```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.

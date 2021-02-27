@@ -28,36 +28,52 @@ devtools::install_github("quickcoffee/coronavirusupdate")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example how to load the transcript data:
 
 ``` r
 library(coronavirusupdate)
-## basic example code
+## load data
+data("coronavirusupdate_transcripts")
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+This will load a tidy dataframe called `coronavirus_update` with one row
+per paragraph and the following structure:
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+library(dplyr)
+glimpse(coronavirusupdate_transcripts)
+#> Rows: 5,528
+#> Columns: 8
+#> $ title            <chr> "Mutante, Schnelltests, Medikamente", "Mutante, Schn…
+#> $ link             <chr> "https://www.ndr.de/nachrichten/info/77-Coronavirus-…
+#> $ episode_no       <int> 77, 77, 77, 77, 77, 77, 77, 77, 77, 77, 77, 77, 77, …
+#> $ speaker          <chr> "Korinna Hennig", "Sandra Ciesek", "Sandra Ciesek", …
+#> $ text             <chr> "Aus Israel erfahren wir viel Aufschlussreiches aus …
+#> $ paragraph_no     <int> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 1…
+#> $ last_change      <dttm> 2021-02-24 17:00:00, 2021-02-24 17:00:00, 2021-02-2…
+#> $ duration_episode <chr> "85 Min", "85 Min", "85 Min", "85 Min", "85 Min", "8…
 ```
 
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date. `devtools::build_readme()` is handy for this. You could also
-use GitHub Actions to re-render `README.Rmd` every time you push. An
-example workflow can be found here:
-<https://github.com/r-lib/actions/tree/master/examples>.
+With this dataset one could for example inspect the share per speaker
+and episode:
 
-You can also embed plots, for example:
+``` r
+library(ggplot2)
+
+coronavirusupdate_transcripts %>%
+  mutate(paragraph_length = nchar(text)) %>% 
+  group_by(episode_no, speaker) %>% 
+  summarise(speaker_length = sum(paragraph_length)) %>% 
+  group_by(episode_no) %>% 
+  mutate(speaker_share = speaker_length/sum(speaker_length)) %>% 
+  ggplot(aes(x=episode_no, y=speaker_share, fill = speaker))+
+  geom_bar(position="stack", stat="identity")+
+  theme_minimal()+
+  theme(legend.position="bottom")+
+  labs(title = "Share of speaker per episode",
+       y = "Share",
+       x = "Episode No",
+       fill = element_blank())
+```
 
 <img src="man/figures/README-pressure-1.png" width="100%" />
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub and CRAN.
