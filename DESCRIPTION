@@ -29,3 +29,5 @@ Imports:
     urltools,
     xml2,
     arrow
+Depends: 
+    R (>= 2.10)

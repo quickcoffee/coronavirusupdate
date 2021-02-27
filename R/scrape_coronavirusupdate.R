@@ -1,5 +1,6 @@
 scrape_coronavirusupdate <- function(.all_episodes_url,
                                      .target_path_rds = "data/coronavirusupdate_transcripts.rds",
+                                     .target_path_rda = "data/coronavirusupdate_transcripts.rda",
                                      .return_tibble = FALSE,
                                      .force_complete_scrape = FALSE,
                                      .write_parquet = FALSE,
@@ -51,11 +52,13 @@ scrape_coronavirusupdate <- function(.all_episodes_url,
       dplyr::filter(episode_no %in% episodes_to_be_scraped)
   }
 
-  coronavirusupdate_transcripts <- coronavirusupdate_transcripts %>%
-    # get transcript data and unnest the results to get a big data frame
-    dplyr::mutate(result_text = purrr::map(.x = link, .f = extract_transcript)) %>%
-    tidyr::unnest(result_text) %>%
-    tidyr::unnest(c(paragraph_no, speaker, text))
+  if (nrow(coronavirusupdate_transcripts) > 0) {
+    coronavirusupdate_transcripts <- coronavirusupdate_transcripts %>%
+      # get transcript data and unnest the results to get a big data frame
+      dplyr::mutate(result_text = purrr::map(.x = link, .f = extract_transcript)) %>%
+      tidyr::unnest(result_text) %>%
+      tidyr::unnest(c(paragraph_no, speaker, text))
+  }
 
   # combine new transcripts with existing data
   if (file.exists(.target_path_rds) & .force_complete_scrape == FALSE) {
@@ -94,6 +97,9 @@ scrape_coronavirusupdate <- function(.all_episodes_url,
 
   #save rds file to target path
   saveRDS(coronavirusupdate_transcripts, file = .target_path_rds)
+
+  #save rda file to target path
+  save(coronavirusupdate_transcripts, file = .target_path_rda)
 
   #if needed also save as parquet
   if (.write_parquet == TRUE) {
