@@ -2,7 +2,7 @@ on:
   push:
     paths:
       - '**.Rmd'
-      - 'data/*'
+      - 'data/**'
   workflow_dispatch:
     inputs:
       logLevel:
