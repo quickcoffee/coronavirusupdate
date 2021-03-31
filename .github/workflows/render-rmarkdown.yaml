@@ -1,4 +1,6 @@
 on:
+  schedule:
+    - cron: "30 12 * * 3"
   push:
     paths:
       - '**.Rmd'
@@ -29,7 +31,7 @@ jobs:
       - name: Install local package
         run: Rscript -e 'devtools::install_github("quickcoffee/coronavirusupdate", upgrade = "never")'
       - name: Render README
-        run: Rscript -e 'rmarkdown::render("README.Rmd")'
+        run: Rscript -e 'devtools::build_readme()'
       - name: Commit results
         run: |
           git config --local user.email "actions@github.com"
