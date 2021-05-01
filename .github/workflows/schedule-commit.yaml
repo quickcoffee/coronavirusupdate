@@ -53,8 +53,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          source("https://raw.githubusercontent.com/apache/arrow/master/r/R/install-arrow.R")
-          install_arrow()
+          install.packages("arrow", type = "source")
           remotes::install_deps(dependencies = TRUE)
         shell: Rscript {0}
           
