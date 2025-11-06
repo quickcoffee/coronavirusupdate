@@ -27,14 +27,14 @@ jobs:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
-      - uses: r-lib/actions/setup-r@master
+      - uses: r-lib/actions/setup-r@v2
         with:
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
 
-      - uses: r-lib/actions/setup-pandoc@master
+      - uses: r-lib/actions/setup-pandoc@v2
 
       - name: Query dependencies
         run: |
@@ -45,7 +45,7 @@ jobs:
         shell: Rscript {0}
 
       - name: Cache R packages
-        uses: actions/cache@v1
+        uses: actions/cache@v3
         with:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
@@ -60,15 +60,33 @@ jobs:
       - name: Generate data
         run: |
           source("scripts/update_data.R")
-        shell: Rscript {0} 
-        
-      - name: Commit files
+        shell: Rscript {0}
+
+      - name: Check for changes and create commit message
+        id: changes
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
-          git add --all
-          git commit -am "add data"
-          git push 
+          git add data/
+
+          # Check if there are changes to commit
+          if git diff --staged --quiet; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "No changes to commit"
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            # Get commit message from R script
+            COMMIT_MSG=$(Rscript scripts/count_new_episodes.R)
+            echo "commit_message=$COMMIT_MSG" >> $GITHUB_OUTPUT
+            echo "Commit message: $COMMIT_MSG"
+          fi
+
+      - name: Commit and push changes
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          git commit -m "Update transcripts: ${{ steps.changes.outputs.commit_message }}"
+          git push
+
       - name: Session info
         run: |
           options(width = 100)

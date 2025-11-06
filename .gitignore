@@ -1,5 +1,57 @@
+# R user files
 .Rproj.user
 .Rhistory
+.RData
+.Rdata
+
+# OAuth tokens
 .httr-oauth
+
+# knitr and R markdown default cache directories
+*_cache/
+/cache/
+
+# Temporary files created by R markdown
+*.utf8.md
+*.knit.md
+
+# R Environment Variables
+.Renviron
+
+# pkgdown site
+docs/
+doc/
+Meta/
+
+# translation temp files
+po/*~
+
+# RStudio files
+.Rproj.user/
+*.Rproj
+
+# produced vignettes
+vignettes/*.html
+vignettes/*.pdf
+
+# R check outputs
+*.Rcheck/
+
+# Package build artifacts
+*.tar.gz
+*.tgz
+
+# MacOS
 .DS_Store
+
+# GitHub dependencies
 depends.Rds
+.github/depends.Rds
+.github/R-version
+
+# IDE
+.vscode/
+.idea/
+
+# Test outputs
+tests/testthat/_snaps/

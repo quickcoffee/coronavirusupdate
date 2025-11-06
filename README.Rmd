@@ -17,6 +17,9 @@ knitr::opts_chunk$set(
 # coronavirusupdate
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/quickcoffee/coronavirusupdate/workflows/R-CMD-check/badge.svg)](https://github.com/quickcoffee/coronavirusupdate/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
 When the [NDR Coronavirus-Update](https://www.ndr.de/nachrichten/info/podcast4684.html) announced that they would make transcripts of all episodes publicly available I firstly tried to scrape the PDF files, which [kind of worked](https://quickcoffee.netlify.app/post/topic-modelling-on-one-of-germany-s-most-popular-corona-podcast/) but was not very reliable. So I went back and now used the transcripts directly from the [podcast's homepage](https://www.ndr.de/nachrichten/info/Coronavirus-Update-Die-Podcast-Folgen-als-Skript,podcastcoronavirus102.html).  
